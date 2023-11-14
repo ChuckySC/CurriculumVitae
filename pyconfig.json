@@ -1,0 +1,11 @@
+{
+    "local":{
+        "description": "Summary outlining information about career, education, skills, and achievements."
+    },
+    "test": {
+        "description": "Summary outlining information about career, education, skills, and achievements."
+    },
+    "live": {
+        "description": "Summary outlining information about career, education, skills, and achievements."
+    }
+}
