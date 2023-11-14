@@ -1,0 +1,20 @@
+{% extends 'components/layouts/base.html' %}
+
+{% block content %}
+    <div class="container-fluid p-0">
+        <!-- About -->
+        {% include "components/about.html" %}
+
+        <hr class="m-0" />
+        <!-- Experience -->
+        {% include "components/experience.html" %}
+        
+        <hr class="m-0" />
+        <!-- Education -->
+        {% include "components/education.html" %}
+        
+        <hr class="m-0" />
+        <!-- Skills -->
+        {% include "components/skills.html" %}
+    </div>
+{% endblock %}

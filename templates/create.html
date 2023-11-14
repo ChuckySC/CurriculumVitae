@@ -1,0 +1,52 @@
+{% extends 'components/layouts/base.html' %}
+
+{% block content %}
+    <div class="container-fluid p-0">
+        <section class="resume-section" id="about">
+            <div class="resume-section-content">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="container">
+                        <div class="mb-3 row">
+                            <label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="firstname" name="firstname"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="lastname" name="lastname"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" name="email"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="bio" class="col-sm-2 col-form-label">Bio</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="bio" name="bio"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="li" class="col-sm-2 col-form-label">LinkedIn</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="li" name="li"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="gh" class="col-sm-2 col-form-label">GitHub</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="gh" name="gh"/>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>
+                      </div>
+                </form>
+            </div>
+        </section>
+    </div>
+{% endblock %}
