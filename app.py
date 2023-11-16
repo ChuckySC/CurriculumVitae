@@ -18,8 +18,10 @@ if __name__ == "__main__":
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)
 
-# Declare the db table
+# Declare db tables
 class User(db.Model):
+    __tablename__ = "User"
+
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(256), nullable=False)
     lastname = db.Column(db.String(256), nullable=False)
@@ -31,6 +33,9 @@ class User(db.Model):
     bio = db.Column(db.Text)
     li = db.Column(db.String(256), unique=True, nullable=False)
     gh = db.Column(db.String(256), unique=True, nullable=False)
+    
+    education = db.relationship('UserEducation', backref='User', lazy=True)
+    experience = db.relationship('UserExperience', backref='User', lazy=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -47,3 +52,82 @@ class User(db.Model):
     def remove(self):
         db.session.delete(self)
         db.session.commit()
+
+class UserEducation(db.Model):
+    __tablename__ = 'UserEducation'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    institution = db.Column(db.String(256), nullable=False)
+    facility = db.Column(db.String(256), nullable=False)
+    module = db.Column(db.String(256), nullable=False)
+    study_period = db.Column(db.String(256), nullable=False)
+
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return f'<Institution {self.institution}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class UserExperience(db.Model):
+    __tablename__ = 'UserExperience'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    position = db.Column(db.String(256), nullable=False)
+    organization = db.Column(db.String(256), nullable=False)
+    work_period = db.Column(db.String(256), nullable=False)
+
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return f'<Position {self.position}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class Skills(db.Model):
+    __tablename__ = 'Skills'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    position = db.Column(db.String(256), nullable=False)
+    organization = db.Column(db.String(256), nullable=False)
+    work_period = db.Column(db.String(256), nullable=False)
+
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return f'<Position {self.position}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class UserSkills(db.Model):
+    pass

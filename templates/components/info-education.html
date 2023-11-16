@@ -1,0 +1,64 @@
+{% block content %}
+    <div id="add-education">
+        <hr>
+        <div class="mb-3 row">
+            <div class="col-sm-10"><h4 class="mb-2">Education & courses</h4></div>
+            <div class="col-sm-2">
+                <button id="btn-add-education" class="btn btn-outline-primary" style="float: right;" type="button">
+                    <i class="fa-solid fa-plus"></i></a>
+                </button>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="institution-0" placeholder="University/Institution"/>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="facility-0" placeholder="Facility/City"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="module-0" placeholder="Module"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="studyperiod-0" placeholder="Study period"/>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            /* --------------------- */
+            /* ----- CONSTANTS ----- */
+            /* --------------------- */
+            const education_obj = `
+                <div class="mb-3 row">
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="INSTITUTION" placeholder="University/Institution"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="FACILITY" placeholder="Facility/City"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="MODULE" placeholder="Module"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="STUDYPERIOD" placeholder="Study period"/>
+                    </div>
+                </div>
+            `
+
+            /* --------------------- */
+            /* ----- LISTENERS ----- */
+            /* --------------------- */
+            $('button#btn-add-education').bind('click', function() {
+                let education_count = $('div#add-education div.row').length - 1;
+                $('div#add-education').append(
+                    education_obj
+                        .replace('INSTITUTION', `institution-${education_count}`)
+                        .replace('FACILITY', `facility-${education_count}`)
+                        .replace('MODULE', `module-${education_count}`)
+                        .replace('STUDYPERIOD', `studyperiod-${education_count}`)
+                );
+            });
+        });
+    </script>
+{% endblock %}
