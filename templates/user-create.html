@@ -1,6 +1,11 @@
 {% extends 'components/layouts/base.html' %}
 
 {% block content %}
+    <!-- Navigation -->
+    {% with type=context.type %}
+        {% include "components/navigation.html" %}
+    {% endwith %}
+
     <div class="container-fluid p-0">
         <section class="resume-section" id="about">
             <div class="resume-section-content">
@@ -16,6 +21,26 @@
                             <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="lastname" name="lastname"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="street" class="col-sm-2 col-form-label">Street</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="street" name="street"/>
+                            </div>
+                            <label for="city" class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="city" name="city"/>
+                            </div>
+                            <label for="postcode" class="col-sm-2 col-form-label">Postcode</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="postcode" name="postcode"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="phone" name="phone"/>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -42,7 +67,6 @@
                                 <input type="text" class="form-control" id="gh" name="gh"/>
                             </div>
                         </div>
-
                         <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>
                       </div>
                 </form>

@@ -2,8 +2,15 @@
 
 {% block content %}
     <div class="container-fluid p-0">
+        <!-- Navigation -->
+        {% with type=context.type %}
+            {% include "components/navigation.html" %}
+        {% endwith %}
+
         <!-- About -->
-        {% include "components/about.html" %}
+        {% with context=context.about %}
+            {% include "components/about.html" %}
+        {% endwith %}
 
         <hr class="m-0" />
         <!-- Experience -->
