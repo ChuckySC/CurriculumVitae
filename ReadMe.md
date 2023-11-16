@@ -21,8 +21,3 @@
 4. *Upgrade pip version [optional]*:   ```python3 -m pip install --upgrade pip```
 5. *Install required dependencies:*   ```python3 -m pip install -r requirements.txt```
 6. *Run Flask development server:* `python3 -m flask run`
-
-
-# Templates
-
-https://startbootstrap.com/theme/resume

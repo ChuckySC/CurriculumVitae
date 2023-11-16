@@ -1,0 +1,16 @@
+### Templates
+    https://startbootstrap.com/theme/resume
+
+### How to Use Flask-SQLAlchemy to Interact with Databases in a Flask Application
+    https://www.digitalocean.com/community/tutorials/how-to-use-flask-sqlalchemy-to-interact-with-databases-in-a-flask-application
+    https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
+
+    NOTE:
+    The db.create_all() function does not recreate or update a table if it already exists.
+    For example, if you modify your model by adding a new column, and run the db.create_all() function,
+    the change you make to the model will not be applied to the table if the table already exists in the database.
+    The solution is to delete all existing database tables with the db.drop_all() function
+    and then recreate them with the db.create_all() function like so:
+
+    db.drop_all()
+    db.create_all()
