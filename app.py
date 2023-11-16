@@ -31,7 +31,7 @@ class User(db.Model):
     bio = db.Column(db.Text)
     li = db.Column(db.String(256), unique=True, nullable=False)
     gh = db.Column(db.String(256), unique=True, nullable=False)
-    
+
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __init__(self, **kwargs):
@@ -39,7 +39,11 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.firstname}>'
-    
+
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def remove(self):
+        db.session.delete(self)
         db.session.commit()

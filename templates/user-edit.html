@@ -1,0 +1,76 @@
+{% extends 'components/layouts/base.html' %}
+
+{% block content %}
+    <!-- Navigation -->
+    {% with type=context.type %}
+        {% include "components/navigation.html" %}
+    {% endwith %}
+
+    <div class="container-fluid p-0">
+        <section class="resume-section" id="about">
+            <div class="resume-section-content">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="container">
+                        <div class="mb-3 row">
+                            <label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="firstname" name="firstname" value="{{context.about.firstname}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="lastname" name="lastname" value="{{context.about.lastname}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="street" class="col-sm-2 col-form-label">Street</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="street" name="street" value="{{context.about.street}}"/>
+                            </div>
+                            <label for="city" class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="city" name="city" value="{{context.about.city}}"/>
+                            </div>
+                            <label for="postcode" class="col-sm-2 col-form-label">Postcode</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="postcode" name="postcode" value="{{context.about.postcode}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="phone" name="phone" value="{{context.about.phone}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" name="email" value="{{context.about.email}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="bio" class="col-sm-2 col-form-label">Bio</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="bio" name="bio" value="{{context.about.bio}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="li" class="col-sm-2 col-form-label">LinkedIn</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="li" name="li" value="{{context.about.linkedin}}"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="gh" class="col-sm-2 col-form-label">GitHub</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="gh" name="gh" value="{{context.about.github}}"/>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>
+                      </div>
+                </form>
+            </div>
+        </section>
+    </div>
+{% endblock %}

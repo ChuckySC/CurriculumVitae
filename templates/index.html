@@ -12,7 +12,7 @@
             style="float: right;"
             type="button"
         >
-            <a class="nav-link" href="{{ url_for('app_views.create') }}">
+            <a class="nav-link" href="{{ url_for('app_views.user_create') }}">
                 <i class="fa-solid fa-plus"></i> add new
             </a>
         </button>
@@ -24,7 +24,7 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Bio</th>
-                    <th scope="col" colspan="3">Actions</th>
+                    <th scope="col" colspan="4">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +34,11 @@
                         <td>{{user.bio}}</td>
                         <td>
                             <button type="button" class="btn btn-outline-success">
+                                <i class="fa-solid fa-file-arrow-down"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success">
                                 <a class="nav-link" href="{{ url_for('app_views.user_details', id = user.id) }}">
                                     <i class="fa-regular fa-eye"></i>
                                 </a>
@@ -41,15 +46,21 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-outline-danger">
-                                <a class="nav-link" href="{{ url_for('app_views.user_details', id = user.id) }}">
+                                <a class="nav-link" href="{{ url_for('app_views.user_edit', id = user.id) }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </a>
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline-danger">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
+                            <form method="POST" action="{{ url_for('app_views.user_remove', id=user.id) }}">
+                                <button 
+                                    type="submit" 
+                                    class="btn btn-outline-danger"
+                                    onclick="return confirm('Are you sure you want to delete {{user.firstname}} {{user.lastname}}?')"
+                                >
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
