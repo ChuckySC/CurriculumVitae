@@ -1,20 +1,59 @@
 {% extends 'components/layouts/base.html' %}
 
 {% block content %}
-    <div class="container-fluid p-0">
-        <!-- About -->
-        {% include "components/about.html" %}
+    <!-- Navigation -->
+    {% with type=context.type %}
+        {% include "components/navigation.html" %}
+    {% endwith %}
 
-        <hr class="m-0" />
-        <!-- Experience -->
-        {% include "components/experience.html" %}
+    <div class="container-fluid p-3 mb-2">
+        <button
+            class="btn btn-primary"
+            style="float: right;"
+            type="button"
+        >
+            <a class="nav-link" href="{{ url_for('app_views.create') }}">
+                <i class="fa-solid fa-plus"></i> add new
+            </a>
+        </button>
+
+        </br></br><hr>
         
-        <hr class="m-0" />
-        <!-- Education -->
-        {% include "components/education.html" %}
-        
-        <hr class="m-0" />
-        <!-- Skills -->
-        {% include "components/skills.html" %}
+        <table class="table table-responsive">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Bio</th>
+                    <th scope="col" colspan="3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in context.users %}
+                    <tr>
+                        <th scope="row">{{user.firstname}} {{user.lastname}}</th>
+                        <td>{{user.bio}}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success">
+                                <a class="nav-link" href="{{ url_for('app_views.user_details', id = user.id) }}">
+                                    <i class="fa-regular fa-eye"></i>
+                                </a>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger">
+                                <a class="nav-link" href="{{ url_for('app_views.user_details', id = user.id) }}">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
