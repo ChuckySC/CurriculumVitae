@@ -41,6 +41,10 @@ def user_create():
                 li=request.form['li'],
                 gh=request.form['gh']
             ).save()
+            
+            # TODO save education
+            # TODO save experience
+            # TODO save skills
 
             return redirect(url_for('app_views.index'))
         
