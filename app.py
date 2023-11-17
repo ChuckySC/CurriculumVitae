@@ -19,6 +19,11 @@ if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 
 # Declare db tables
+userSkill = db.Table('UserSkill',
+    db.Column('skill_id', db.Integer, db.ForeignKey('Skill.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True)
+)
+
 class User(db.Model):
     __tablename__ = "User"
 
@@ -36,6 +41,7 @@ class User(db.Model):
     
     education = db.relationship('UserEducation', backref='User', lazy=True)
     experience = db.relationship('UserExperience', backref='User', lazy=True)
+    skill = db.relationship('Skill', secondary=userSkill, lazy='subquery', backref=db.backref('User', lazy=True))
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -104,22 +110,19 @@ class UserExperience(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-class Skills(db.Model):
-    __tablename__ = 'Skills'
+class Skill(db.Model):
+    __tablename__ = 'Skill'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
-    position = db.Column(db.String(256), nullable=False)
-    organization = db.Column(db.String(256), nullable=False)
-    work_period = db.Column(db.String(256), nullable=False)
+    name = db.Column(db.String(256), unique=True, nullable=False)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
+        super(Skill, self).__init__(**kwargs)
 
     def __repr__(self):
-        return f'<Position {self.position}>'
+        return f'<Skill {self.name}>'
 
     def save(self):
         db.session.add(self)
@@ -128,6 +131,3 @@ class Skills(db.Model):
     def remove(self):
         db.session.delete(self)
         db.session.commit()
-
-class UserSkills(db.Model):
-    pass

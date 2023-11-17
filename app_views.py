@@ -42,7 +42,7 @@ def user_create():
                 gh=request.form['gh']
             ).save()
             return redirect(url_for('app_views.index'))
-        return render_template('user-create.html', context={'type': 'create'})
+        return render_template('user-create.html', context={'type': 'user-create'})
     except Exception as e:
         # logger for errors
         abort(500)
@@ -53,7 +53,7 @@ def user_details(id):
         from app import User
         user = User.query.get(int(id))
         context = {
-            'type': 'details',
+            'type': 'user-details',
             'about': {
                 'firstname': user.firstname,
                 'lastname': user.lastname,
@@ -93,7 +93,7 @@ def user_edit(id):
             return redirect(url_for('app_views.index'))
         
         context = {
-            'type': 'edit',
+            'type': 'user-edit',
             'about': {
                 'firstname': user.firstname,
                 'lastname': user.lastname,
@@ -119,6 +119,58 @@ def user_remove(id):
         user = User.query.get_or_404(id)
         user.remove()
         return redirect(url_for('app_views.index'))
+    except Exception as e:
+        # logger for errors
+        abort(500)
+
+@app_views.route('/skill/create', methods=['GET', 'POST'])
+def skill_create():
+    try:
+        from app import Skill
+
+        if request.method == 'POST':
+            Skill(
+                name=request.form['skillname']
+            ).save()
+
+        context = {
+            'type': 'skill-create',
+            'skills': Skill.query.all()
+        }
+        return render_template('skill-create.html', context=context)
+    except Exception as e:
+        # logger for errors
+        abort(500)
+
+@app_views.route('/skill/edit/<int:id>', methods=('GET', 'POST'))
+def skill_edit(id):
+    try:
+        from app import Skill
+        skill = Skill.query.get_or_404(id)
+        
+        if request.method == 'POST':
+            skill.name = request.form['name']
+            skill.save()
+            return redirect(url_for('app_views.skill_create'))
+        
+        context = {
+            'type': 'skill-edit',
+            'about': {
+                'name': skill.name
+            }
+        }
+        return render_template('skill-create.html', context=context)
+    except Exception as e:
+        # logger for errors
+        abort(500)
+
+@app_views.post('/skill/remove/<int:id>')
+def skill_remove(id):
+    try:
+        from app import Skill
+        skill = Skill.query.get_or_404(id)
+        skill.remove()
+        return redirect(url_for('app_views.skills'))
     except Exception as e:
         # logger for errors
         abort(500)

@@ -25,9 +25,22 @@
             <ul class="navbar-nav">
                 {% if type == 'index' %}
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.user_create') }}">
-                        <i class="fa-solid fa-plus"></i> add new</a>
+                        <i class="fa-solid fa-plus"></i> add new user</a>
                     </li>
-                {% elif type == 'create' %}
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.skill_create') }}">
+                        <i class="fa-solid fa-plus"></i> add new skill</a>
+                    </li>
+                {% elif type == 'user-create' %}
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.skill_create') }}">
+                        <i class="fa-solid fa-plus"></i> add new skill</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.index') }}">
+                        <i class="fa-solid fa-arrow-left"></i> back to list</a>
+                    </li>
+                {% elif type == 'skill-create' %}
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.user_create') }}">
+                        <i class="fa-solid fa-plus"></i> add new user</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.index') }}">
                         <i class="fa-solid fa-arrow-left"></i> back to list</a>
                     </li>
@@ -37,7 +50,10 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education & Courses</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.user_create') }}">
-                        <i class="fa-solid fa-plus"></i> add new</a>
+                        <i class="fa-solid fa-plus"></i> add new user</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.skill_create') }}">
+                        <i class="fa-solid fa-plus"></i> add new skill</a>
                     </li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('app_views.index') }}">
                         <i class="fa-solid fa-arrow-left"></i> back to list</a>

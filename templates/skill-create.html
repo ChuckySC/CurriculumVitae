@@ -1,0 +1,45 @@
+{% extends 'components/layouts/base.html' %}
+
+{% block content %}
+    <!-- Navigation -->
+    {% with type=context.type %}
+        {% include "components/navigation.html" %}
+    {% endwith %}
+
+    <div class="container-fluid p-3 mb-2">
+        <form method="POST" action="{{ url_for('app_views.skill_create') }}" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input id="add-skill" name="skillname" class="form-control" type="text" placeholder="New skill" aria-label="New skill" aria-describedby="btn-add-skill">
+                <button id="btn-add-skill" class="btn btn-outline-primary" type="submit" style="float: right;">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </form>
+        <hr>
+        <div id="add-skill">
+            <h4 class="mb-2">Skills</h4>
+            {% for skill in context.skills %}
+                <div class="mb-3 row">
+                    <div class="col-sm-2">{{skill.name}}</div>
+                    <div class="col-sm-1 d-flex justify-content-around">
+                        <button type="button" class="btn btn-outline-danger">
+                            <a class="nav-link" href="{{ url_for('app_views.skill_edit', id = skill.id) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                        </button>
+                        <form method="POST" action="{{ url_for('app_views.skill_remove', id=skill.id) }}">
+                            <button 
+                                type="submit" 
+                                class="btn btn-outline-danger"
+                                onclick="return confirm('Are you sure you want to delete {{skill.name}}?')"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-sm-9"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

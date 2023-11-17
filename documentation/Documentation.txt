@@ -12,5 +12,7 @@
     The solution is to delete all existing database tables with the db.drop_all() function
     and then recreate them with the db.create_all() function like so:
 
+    flask shell
     db.drop_all()
     db.create_all()
+    exit()
