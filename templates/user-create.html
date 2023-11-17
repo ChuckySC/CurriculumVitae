@@ -14,7 +14,9 @@
                         {% include "components/info-general.html" %}
                         {% include "components/info-education.html" %}
                         {% include "components/info-experience.html" %}
-                        {% include "components/info-skills.html" %}
+                        {% with context=context %}
+                            {% include "components/info-skills.html" %}
+                        {% endwith %}
                         <hr>
                         <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>
                     </div>

@@ -14,18 +14,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)
 
 # Declare db tables
-userSkillWorkflow = db.Table('UserSkillWorkflow',
-    db.Column('skillworkflow_id', db.Integer, db.ForeignKey('SkillWorkflow.id'), primary_key=True),
-    db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True)
+user_skillworkflow_association = db.Table('UserSkillWorkflow',
+    db.Column('skillworkflow_id', db.Integer, db.ForeignKey('SkillWorkflow.id'), primary_key=True, ondelete='CASCADE'),
+    db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True, ondelete='CASCADE')
 )
 
 class User(db.Model):
-    __tablename__ = "User"
+    __tablename__ = 'User'
 
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(256), nullable=False)
@@ -41,7 +41,7 @@ class User(db.Model):
     
     education = db.relationship('UserEducation', backref='User', lazy=True)
     experience = db.relationship('UserExperience', backref='User', lazy=True)
-    skillworkflow = db.relationship('SkillWorkflow', secondary=userSkillWorkflow, lazy='subquery', backref=db.backref('User', lazy=True))
+    skillworkflow = db.relationship('SkillWorkflow', secondary=user_skillworkflow_association, back_populates='User', cascade='all, delete')
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -119,6 +119,8 @@ class SkillWorkflow(db.Model):
     isSkill = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    user = db.relationship('User', secondary=user_skillworkflow_association, back_populates='SkillWorkflow', cascade='all, delete')
     
     def __init__(self, **kwargs):
         super(SkillWorkflow, self).__init__(**kwargs)

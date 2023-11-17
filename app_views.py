@@ -27,9 +27,9 @@ def index():
 @app_views.route('/user/create/', methods=('GET', 'POST'))
 def user_create():
     try:
-        from app import User
+        from app import User, SkillWorkflow
         if request.method == 'POST':
-            User(
+            user = User(
                 firstname=request.form['firstname'],
                 lastname=request.form['lastname'],
                 street=request.form['street'],
@@ -41,8 +41,16 @@ def user_create():
                 li=request.form['li'],
                 gh=request.form['gh']
             ).save()
+            user_id = user.id
+
             return redirect(url_for('app_views.index'))
-        return render_template('user-create.html', context={'type': 'user-create'})
+        
+        context = {
+            'type': 'user-create',
+            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
+            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
+        }
+        return render_template('user-create.html', context=context)
     except Exception as e:
         # logger for errors
         abort(500)

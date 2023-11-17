@@ -4,114 +4,20 @@
         <h4 class="mb-4">Skills</h2>
         <div class="subheading mb-3">Programming Languages & Tools</div>
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="python">
-                        <label class="form-check-label" for="python">Python</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="javascript">
-                        <label class="form-check-label" for="javascript">JavaScript</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="c#">
-                        <label class="form-check-label" for="c#">C#</label>
-                    </div>
+            {% for skill in context.skills %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="skill-{{skill.id}}">
+                    <label class="form-check-label" for="skill-{{skill.id}}">{{skill.name}}</label>
                 </div>
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="php">
-                        <label class="form-check-label" for="php">PHP</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="java">
-                        <label class="form-check-label" for="java">Java</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="c++">
-                        <label class="form-check-label" for="c++">C++</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="tsql">
-                        <label class="form-check-label" for="tsql">T-SQL</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="elasticsearch">
-                        <label class="form-check-label" for="elasticsearch">Elasticsearch</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="auth0">
-                        <label class="form-check-label" for="auth0">Auth0</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="jquery">
-                        <label class="form-check-label" for="jquery">jQuery</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="flask">
-                        <label class="form-check-label" for="flask">Flask</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="django">
-                        <label class="form-check-label" for="django">Django</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="react">
-                        <label class="form-check-label" for="react">React</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="angular">
-                        <label class="form-check-label" for="angular">Angular</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="vue">
-                        <label class="form-check-label" for="vue">Vue</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="vs">
-                        <label class="form-check-label" for="vs">Visual Studio</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="vsc">
-                        <label class="form-check-label" for="vsc">VSC</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="eclipse">
-                        <label class="form-check-label" for="eclipse">Eclipse</label>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="subheading mt-3 mb-3">Workflow</div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="design">
-            <label class="form-check-label" for="design">Responsive Design</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="debugging">
-            <label class="form-check-label" for="debugging">Cross Browser Testing & Debugging</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="teams">
-            <label class="form-check-label" for="teams">Cross Functional Teams</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="agile">
-            <label class="form-check-label" for="agile">Agile Development & Scrum</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="waterfall">
-            <label class="form-check-label" for="waterfall">Waterfall Development</label>
-        </div>
+        {% for workflow in context.workflows %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="skill-{{workflow.id}}">
+                <label class="form-check-label" for="skill-{{workflow.id}}">{{workflow.name}}</label>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
