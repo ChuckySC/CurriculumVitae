@@ -19,8 +19,8 @@ if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 
 # Declare db tables
-userSkill = db.Table('UserSkill',
-    db.Column('skill_id', db.Integer, db.ForeignKey('Skill.id'), primary_key=True),
+userSkillWorkflow = db.Table('UserSkillWorkflow',
+    db.Column('skillworkflow_id', db.Integer, db.ForeignKey('SkillWorkflow.id'), primary_key=True),
     db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True)
 )
 
@@ -41,7 +41,7 @@ class User(db.Model):
     
     education = db.relationship('UserEducation', backref='User', lazy=True)
     experience = db.relationship('UserExperience', backref='User', lazy=True)
-    skill = db.relationship('Skill', secondary=userSkill, lazy='subquery', backref=db.backref('User', lazy=True))
+    skillworkflow = db.relationship('SkillWorkflow', secondary=userSkillWorkflow, lazy='subquery', backref=db.backref('User', lazy=True))
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -110,19 +110,21 @@ class UserExperience(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-class Skill(db.Model):
-    __tablename__ = 'Skill'
+class SkillWorkflow(db.Model):
+    __tablename__ = 'SkillWorkflow'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), unique=True, nullable=False)
+    # skill = True, workflow = False
+    isSkill = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
     def __init__(self, **kwargs):
-        super(Skill, self).__init__(**kwargs)
+        super(SkillWorkflow, self).__init__(**kwargs)
 
     def __repr__(self):
-        return f'<Skill {self.name}>'
+        return f'<Skill/Workflow {self.name}>'
 
     def save(self):
         db.session.add(self)
