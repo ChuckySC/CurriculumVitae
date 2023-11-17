@@ -19,11 +19,6 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
 # Declare db tables
-user_skillworkflow_association = db.Table('UserSkillWorkflow',
-    db.Column('skillworkflow_id', db.Integer, db.ForeignKey('SkillWorkflow.id'), primary_key=True, ondelete='CASCADE'),
-    db.Column('user_id', db.Integer, db.ForeignKey('User.id'), primary_key=True, ondelete='CASCADE')
-)
-
 class User(db.Model):
     __tablename__ = 'User'
 
@@ -41,7 +36,6 @@ class User(db.Model):
     
     education = db.relationship('UserEducation', backref='User', lazy=True)
     experience = db.relationship('UserExperience', backref='User', lazy=True)
-    skillworkflow = db.relationship('SkillWorkflow', secondary=user_skillworkflow_association, back_populates='User', cascade='all, delete')
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -50,6 +44,30 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.firstname}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class Skill(db.Model):
+    __tablename__ = 'Skill'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), unique=True, nullable=False)
+    # skill = True, workflow = False
+    isSkill = db.Column(db.Boolean, unique=False, default=True)
+
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    def __init__(self, **kwargs):
+        super(Skill, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return f'<Skill {self.name}>'
 
     def save(self):
         db.session.add(self)
@@ -110,24 +128,16 @@ class UserExperience(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-class SkillWorkflow(db.Model):
-    __tablename__ = 'SkillWorkflow'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), unique=True, nullable=False)
-    # skill = True, workflow = False
-    isSkill = db.Column(db.Boolean, unique=False, default=True)
-
-    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+class UserSkill(db.Model):
+    __tablename__ = 'UserSkill'
     
-    user = db.relationship('User', secondary=user_skillworkflow_association, back_populates='SkillWorkflow', cascade='all, delete')
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, unique=False, nullable=False)
+    skill_id = db.Column(db.Integer, unique=False, nullable=False)
     
     def __init__(self, **kwargs):
-        super(SkillWorkflow, self).__init__(**kwargs)
-
-    def __repr__(self):
-        return f'<Skill/Workflow {self.name}>'
-
+        super(UserSkill, self).__init__(**kwargs)
+    
     def save(self):
         db.session.add(self)
         db.session.commit()

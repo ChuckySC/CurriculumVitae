@@ -27,7 +27,7 @@ def index():
 @app_views.route('/user/create/', methods=('GET', 'POST'))
 def user_create():
     try:
-        from app import User, SkillWorkflow
+        from app import User, Skill
         if request.method == 'POST':
             user = User(
                 firstname=request.form['firstname'],
@@ -47,8 +47,8 @@ def user_create():
         
         context = {
             'type': 'user-create',
-            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
-            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
+            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
         }
         return render_template('user-create.html', context=context)
     except Exception as e:
@@ -134,26 +134,26 @@ def user_remove(id):
 @app_views.route('/skill/create/<type>', methods=['GET', 'POST'])
 def skill_create(type='skill'):
     try:
-        from app import SkillWorkflow
+        from app import Skill
 
         if request.method == 'POST':
             if type == 'skill':
-                SkillWorkflow(
+                Skill(
                     name=request.form['skillname'],
                     isSkill=True
                 ).save()
             else:
-                SkillWorkflow(
+                Skill(
                     name=request.form['workflowname'],
                     isSkill=False
                 ).save()
 
         context = {
-            'type': 'skill-workflow-create',
-            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
-            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
+            'type': 'skill-create',
+            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
         }
-        return render_template('skill-workflow-create.html', context=context)
+        return render_template('skill-create.html', context=context)
     except Exception as e:
         # logger for errors
         abort(500)
@@ -161,8 +161,8 @@ def skill_create(type='skill'):
 @app_views.route('/skill/edit/<int:id>', methods=('GET', 'POST'))
 def skill_edit(id):
     try:
-        from app import SkillWorkflow
-        skill = SkillWorkflow.query.get_or_404(id)
+        from app import Skill
+        skill = Skill.query.get_or_404(id)
         
         if request.method == 'POST':
             skill.name = request.form['skillname']
@@ -170,11 +170,11 @@ def skill_edit(id):
             return redirect(url_for('app_views.skill_create', type='skill'))
         
         context = {
-            'type': 'skill-workflow-create',
-            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
-            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
+            'type': 'skill-create',
+            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
         }
-        return render_template('skill-workflow-create.html', context=context)
+        return render_template('skill-create.html', context=context)
     except Exception as e:
         # logger for errors
         abort(500)
@@ -182,8 +182,8 @@ def skill_edit(id):
 @app_views.post('/skill/remove/<int:id>')
 def skill_remove(id):
     try:
-        from app import SkillWorkflow
-        skill = SkillWorkflow.query.get_or_404(id)
+        from app import Skill
+        skill = Skill.query.get_or_404(id)
         skill.remove()
         return redirect(url_for('app_views.skill_create', type='skill'))
     except Exception as e:
