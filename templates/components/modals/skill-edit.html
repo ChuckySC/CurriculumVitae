@@ -1,0 +1,33 @@
+{% block content %}
+    <div id="modal-edit-skill" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <form id="modal-form-edit-skill" method="POST" action="" enctype="multipart/form-data">/skill/edit/<int:id>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="modal-input-edit-skill-id" type="hidden" value=""/>
+                        <input 
+                            id="modal-input-edit-skill" 
+                            name="skillname" 
+                            class="form-control" 
+                            type="text" 
+                            value=""
+                        />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button
+                            id="modal-btn-edit-skill"
+                            type="submit" 
+                            class="btn btn-outline-primary"
+                        >
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

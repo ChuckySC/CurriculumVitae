@@ -14,13 +14,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)
 
 # Declare db tables
 class User(db.Model):
-    __tablename__ = "User"
+    __tablename__ = 'User'
 
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(256), nullable=False)
@@ -44,6 +44,31 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.firstname}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self.id
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class Skill(db.Model):
+    __tablename__ = 'Skill'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), unique=True, nullable=False)
+    # skill = True, workflow = False
+    isSkill = db.Column(db.Boolean, unique=False, default=True)
+
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    def __init__(self, **kwargs):
+        super(Skill, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return f'<Skill {self.name}>'
 
     def save(self):
         db.session.add(self)
@@ -104,23 +129,16 @@ class UserExperience(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-class Skills(db.Model):
-    __tablename__ = 'Skills'
-
+class UserSkill(db.Model):
+    __tablename__ = 'UserSkill'
+    
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
-    position = db.Column(db.String(256), nullable=False)
-    organization = db.Column(db.String(256), nullable=False)
-    work_period = db.Column(db.String(256), nullable=False)
-
-    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    user_id = db.Column(db.Integer, unique=False, nullable=False)
+    skill_id = db.Column(db.Integer, unique=False, nullable=False)
     
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-
-    def __repr__(self):
-        return f'<Position {self.position}>'
-
+        super(UserSkill, self).__init__(**kwargs)
+    
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -128,6 +146,3 @@ class Skills(db.Model):
     def remove(self):
         db.session.delete(self)
         db.session.commit()
-
-class UserSkills(db.Model):
-    pass

@@ -1,0 +1,127 @@
+{% extends 'components/layouts/base.html' %}
+
+{% block content %}
+    <!-- Navigation -->
+    {% with type=context.type %}
+        {% include "components/navigation.html" %}
+    {% endwith %}
+
+    <!-- Modal -->
+    {% include "components/modals/skill-edit.html" %}
+
+    <div class="container-fluid p-3 mb-2">
+        <div id="add-skill">
+            <h4 class="mb-2">PROGRAMMING LANGUAGES & TOOLS</h4>
+            <form method="POST" action="{{ url_for('app_views.skill_create', type='skill') }}" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <input 
+                        id="add-skill" 
+                        name="skillname" 
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Add new skill" 
+                        aria-label="Add new skill" 
+                        aria-describedby="btn-add-skill"
+                    />
+                    <button id="btn-add-skill" class="btn btn-outline-primary" type="submit" style="float: right;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </form>
+            <hr>
+            {% for skill in context.skills %}
+                <div class="mb-3 row">
+                    <div class="col-sm-11">{{skill.name}}</div>
+                    <div class="col-sm-1 d-flex justify-content-around">
+                        <button 
+                            type="button" 
+                            class="btn btn-outline-danger btn-edit-skill" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modal-edit-skill"
+                            data-id="{{skill.id}}"
+                            data-name="{{skill.name}}"
+                            data-type="skill"
+                        >
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <form method="POST" action="{{ url_for('app_views.skill_remove', id=skill.id) }}">
+                            <button 
+                                type="submit" 
+                                class="btn btn-outline-danger"
+                                onclick="return confirm('Are you sure you want to delete {{skill.name}}?')"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="add-workflow">
+            <h4 class="mb-2">WORKFLOWS</h4>
+            <form method="POST" action="{{ url_for('app_views.skill_create', type='workflow') }}" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <input 
+                        id="add-workflow" 
+                        name="workflowname" 
+                        class="form-control" 
+                        type="text" 
+                        placeholder="Add new workflow" 
+                        aria-label="Add new workflow" 
+                        aria-describedby="btn-add-workflow"
+                    />
+                    <button id="btn-add-workflow" class="btn btn-outline-primary" type="submit" style="float: right;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </form>
+            <hr>
+            {% for workflow in context.workflows %}
+                <div class="mb-3 row">
+                    <div class="col-sm-11">{{workflow.name}}</div>
+                    <div class="col-sm-1 d-flex justify-content-around">
+                        <button 
+                            type="button" 
+                            class="btn btn-outline-danger btn-edit-skill" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modal-edit-skill"
+                            data-id="{{workflow.id}}"
+                            data-name="{{workflow.name}}"
+                            data-type="workflow"
+                        >
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <form method="POST" action="{{ url_for('app_views.skill_remove', id=workflow.id) }}">
+                            <button 
+                                type="submit" 
+                                class="btn btn-outline-danger"
+                                onclick="return confirm('Are you sure you want to delete {{workflow.name}}?')"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            /* --------------------- */
+            /* ----- LISTENERS ----- */
+            /* --------------------- */
+            $('button.btn-edit-skill').bind('click', function(e) {
+                e.preventDefault();
+
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                //let type = $(this).data('type');
+                
+                $('#modal-input-edit-skill-id').attr('value', id);
+                $('#modal-input-edit-skill').attr('value', name);
+                $('#modal-form-edit-skill').attr('action', `/skill/edit/${id}`);
+            });
+        });
+    </script>
+{% endblock %}

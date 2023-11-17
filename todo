@@ -1,6 +1,7 @@
-Add DB table - Skills
-Add/edit skill
-Add/edit workflow
+Add DB table - Skills DONE
+Add/edit skill DONE
+Add/edit workflow DONE
+Remove skill/workflow PREVENT DELETE IF IT IS LINKED TO SOME USER
 Relation Skills - UserSkills - UserSkills
 Finish FE part for create full cv
 BE create user

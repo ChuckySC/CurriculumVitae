@@ -9,19 +9,21 @@
 
         <!-- About -->
         {% with context=context.about %}
-            {% include "components/about.html" %}
+            {% include "components/user-about.html" %}
         {% endwith %}
 
         <hr class="m-0" />
         <!-- Experience -->
-        {% include "components/experience.html" %}
+        {% include "components/user-experience.html" %}
         
         <hr class="m-0" />
         <!-- Education -->
-        {% include "components/education.html" %}
+        {% include "components/user-education.html" %}
         
         <hr class="m-0" />
         <!-- Skills -->
-        {% include "components/skills.html" %}
+        {% with context=context.skills %}
+            {% include "components/user-skills.html" %}
+        {% endwith %}
     </div>
 {% endblock %}
