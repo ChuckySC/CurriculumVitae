@@ -48,6 +48,7 @@ class User(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+        return self.id
 
     def remove(self):
         db.session.delete(self)

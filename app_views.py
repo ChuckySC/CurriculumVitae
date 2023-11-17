@@ -29,7 +29,7 @@ def user_create():
     try:
         from app import User, Skill
         if request.method == 'POST':
-            user = User(
+            user_id = User(
                 firstname=request.form['firstname'],
                 lastname=request.form['lastname'],
                 street=request.form['street'],
@@ -41,7 +41,6 @@ def user_create():
                 li=request.form['li'],
                 gh=request.form['gh']
             ).save()
-            user_id = user.id
 
             return redirect(url_for('app_views.index'))
         
