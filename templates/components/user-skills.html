@@ -4,32 +4,18 @@
             <h2 class="mb-5">Skills</h2>
             <div class="subheading mb-3">Programming Languages & Tools</div>
             <ul class="list-inline dev-icons">
-                <li class="list-inline-item"><i class="fab fa-python"></i> Python</li>
-                <li class="list-inline-item"><i class="fab fa-js-square"></i> JavaScript</li>
-                <br>
-                <li class="list-inline-item">T-SQL</li>
-                <br>
-                <li class="list-inline-item">Flask</li>
-                <li class="list-inline-item">Django</li>
+                {% for skill in context.skills %}
+                    <li class="list-inline-item">{{skill}}</li>
+                {% endfor %}
             </ul>
-            <div class="subheading mb-3">Workflow</div>
+            <div class="subheading mb-3">Workflows</div>
             <ul class="fa-ul mb-0">
-                <li>
-                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                    Responsive Design
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                    Cross Browser Testing & Debugging
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                    Cross Functional Teams
-                </li>
-                <li>
-                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                    Agile Development & Scrum
-                </li>
+                {% for workflow in context.workflows %}
+                    <li>
+                        <span class="fa-li"><i class="fas fa-check"></i></span>
+                        {{workflow}}
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </section>

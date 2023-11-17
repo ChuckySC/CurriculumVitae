@@ -22,6 +22,8 @@
         
         <hr class="m-0" />
         <!-- Skills -->
-        {% include "components/user-skills.html" %}
+        {% with context=context.skills %}
+            {% include "components/user-skills.html" %}
+        {% endwith %}
     </div>
 {% endblock %}

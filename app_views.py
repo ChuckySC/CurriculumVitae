@@ -27,7 +27,7 @@ def index():
 @app_views.route('/user/create/', methods=('GET', 'POST'))
 def user_create():
     try:
-        from app import User, Skill
+        from app import User, Skill, UserSkill
         if request.method == 'POST':
             user_id = User(
                 firstname=request.form['firstname'],
@@ -44,7 +44,15 @@ def user_create():
             
             # TODO save education
             # TODO save experience
-            # TODO save skills
+            
+            # save skills
+            skills = Skill.query.all()
+            for skill in skills:
+                if f'skill-{skill.id}' in request.form:
+                    UserSkill(
+                        user_id=user_id,
+                        skill_id=skill.id
+                    ).save()
 
             return redirect(url_for('app_views.index'))
         
@@ -61,8 +69,19 @@ def user_create():
 @app_views.route('/user/details/<int:id>', methods=['GET'])
 def user_details(id):
     try:
-        from app import User
+        from app import User, UserSkill, Skill
         user = User.query.get(int(id))
+        user_skills = UserSkill.query.filter_by(user_id=id)
+        
+        skills = []
+        workflows = []
+        for element in user_skills:
+            skill = Skill.query.get(int(element.skill_id))
+            if skill.isSkill:
+                skills.append(skill.name)
+            else:
+                workflows.append(skill.name)
+            
         context = {
             'type': 'user-details',
             'about': {
@@ -76,6 +95,10 @@ def user_details(id):
                 'bio': user.bio,
                 'linkedin': user.li,
                 'github': user.gh
+            },
+            'skills': {
+                'skills': skills,
+                'workflows': workflows
             }
         }
         return render_template('user-details.html', context=context)
