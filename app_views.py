@@ -142,8 +142,8 @@ def skill_create(type='skill'):
 
         context = {
             'type': 'skill-workflow-create',
-            'skills': SkillWorkflow.query.filter_by(isSkill=True),
-            'workflows': SkillWorkflow.query.filter_by(isSkill=False)
+            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
+            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
         }
         return render_template('skill-workflow-create.html', context=context)
     except Exception as e:
@@ -163,8 +163,8 @@ def skill_edit(id):
         
         context = {
             'type': 'skill-workflow-create',
-            'skills': SkillWorkflow.query.filter_by(isSkill=True),
-            'workflows': SkillWorkflow.query.filter_by(isSkill=False)
+            'skills': SkillWorkflow.query.filter_by(isSkill=True).order_by(SkillWorkflow.name),
+            'workflows': SkillWorkflow.query.filter_by(isSkill=False).order_by(SkillWorkflow.name)
         }
         return render_template('skill-workflow-create.html', context=context)
     except Exception as e:
