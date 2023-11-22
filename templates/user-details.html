@@ -7,23 +7,23 @@
             {% include "components/navigation.html" %}
         {% endwith %}
 
-        <!-- About -->
-        {% with context=context.about %}
-            {% include "components/user-about.html" %}
+        <!-- General -->
+        {% with context=context.general %}
+            {% include "components/user/details/general.html" %}
         {% endwith %}
 
         <hr class="m-0" />
         <!-- Experience -->
-        {% include "components/user-experience.html" %}
+        {% include "components/user/details/experience.html" %}
         
         <hr class="m-0" />
         <!-- Education -->
-        {% include "components/user-education.html" %}
+        {% include "components/user/details/education.html" %}
         
         <hr class="m-0" />
         <!-- Skills -->
         {% with context=context.skills %}
-            {% include "components/user-skills.html" %}
+            {% include "components/user/details/skills.html" %}
         {% endwith %}
     </div>
 {% endblock %}

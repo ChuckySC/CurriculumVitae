@@ -1,10 +1,13 @@
-Add DB table - Skills DONE
-Add/edit skill DONE
-Add/edit workflow DONE
-Remove skill/workflow PREVENT DELETE IF IT IS LINKED TO SOME USER
-Relation Skills - UserSkills - UserSkills
-Finish FE part for create full cv
-BE create user
-FE & BE edit user
-FE & BE view user
-Download CV pdf
++ Add DB table - Skills
++ Add/edit skill
++ Add/edit workflow
+- Remove skill/workflow PREVENT DELETE IF IT IS LINKED TO SOME USER
+- Relation Skills - UserSkills - UserSkills
+- Finish FE part for create full cv
+- BE create user
+- FE & BE edit user
+- FE & BE view user
+- Download CV pdf
+
++ FIX EDIT USER !!! PAGE BREAKS
++ FIX ADD DUPLICATE SKILL !!! PAGE BREAKS

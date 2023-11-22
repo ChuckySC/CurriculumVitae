@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import select, update, delete, values
 from sqlalchemy.sql import func
 from flask import Flask
 import os
@@ -60,7 +61,7 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), unique=True, nullable=False)
     # skill = True, workflow = False
-    isSkill = db.Column(db.Boolean, unique=False, default=True)
+    is_skill = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
@@ -75,6 +76,7 @@ class Skill(db.Model):
         db.session.commit()
 
     def remove(self):
+        # TODO prevent delete if skill is lined to any user
         db.session.delete(self)
         db.session.commit()
 
@@ -145,4 +147,11 @@ class UserSkill(db.Model):
 
     def remove(self):
         db.session.delete(self)
+        db.session.commit()
+    
+    def removeAll(self, id):
+        # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
+        sql = delete(UserSkill).where(UserSkill.user_id == id)
+
+        db.session.execute(sql)
         db.session.commit()
