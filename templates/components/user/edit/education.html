@@ -26,12 +26,12 @@
                 <div class="col-sm-1">
                     <div class="form-check">
                         {% if education.is_education %}
-                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}">
                             <label class="form-check-label" for="course-{{loop.index0}}">
                                 Course?
                             </label>
                         {% else %}
-                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}">
+                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}" checked>
                             <label class="form-check-label" for="course-{{loop.index0}}">
                                 Course?
                             </label>

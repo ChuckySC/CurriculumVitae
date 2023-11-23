@@ -14,15 +14,19 @@ def generate_pdf(user_data: dict):
     data = {
         'summary': user_data['summary'],
         'experience': '<br/>'.join([
-            f'<b>{experience.position}</b>, {experience.organization}<br/> {experience.work_period}'
+            f'{experience.work_period}<br/><b>{experience.position}</b>, <em>{experience.organization}</em><br/>'
             for experience in user_data['experience']
         ]),
         'education': '<br/>'.join([
-            f'<b>{education.institution}</b>, {education.facility}<br/><b>{education.module}</b><br/>{education.study_period}'
+            f'{education.study_period}<br/><b>{education.institution}</b>, <em>{education.facility}</em> - {education.module}<br/>'
+            if education.study_period != ''
+            else f'<b>{education.institution}</b>, <em>{education.facility}</em> - {education.module}<br/>'
             for education in user_data['education']
         ]),
         'courses': '<br/>'.join([
-            f'<b>{course.institution}</b>, {course.facility}<br/><b>{course.module}</b><br/>{course.study_period}'
+            f'{course.study_period}<br/><b>{course.institution}</b>, <em>{course.facility}</em> - {course.module}<br/>'
+            if course.study_period != ''
+            else f'<b>{course.institution}</b>, <em>{course.facility}</em> - {course.module}<br/>'
             for course in user_data['courses']
         ]),
         'skills': '<br/>'.join([
