@@ -14,11 +14,15 @@
 
         <hr class="m-0" />
         <!-- Experience -->
-        {% include "components/user/details/experience.html" %}
+        {% with context=context.experience %}
+            {% include "components/user/details/experience.html" %}
+        {% endwith %}
         
         <hr class="m-0" />
         <!-- Education -->
-        {% include "components/user/details/education.html" %}
+        {% with context=context.education %}
+            {% include "components/user/details/education.html" %}
+        {% endwith %}
         
         <hr class="m-0" />
         <!-- Skills -->

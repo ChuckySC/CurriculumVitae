@@ -2,42 +2,26 @@
     <section class="resume-section" id="education">
         <div class="resume-section-content">
             <h2 class="mb-5">Education</h2>
-            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                <div class="flex-grow-1">
-                    <h3 class="mb-0">University of Belgrade</h3>
-                    <div class="subheading mb-3">Faculty of Agriculture</div>
-                    <div>Agricultural economy</div>
+            {% for education in context.education %}
+                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="flex-grow-1">
+                        <h3 class="mb-0">{{education.institution}}</h3>
+                        <div class="subheading mb-3">{{education.facility}}</div>
+                        <div>{{education.module}}</div>
+                    </div>
+                    <div class="flex-shrink-0"><span class="text-primary">{{education.study_period}}</span></div>
                 </div>
-                <div class="flex-shrink-0"><span class="text-primary">June 2016 - Present</span></div>
-            </div>
-            <div class="d-flex flex-column flex-md-row justify-content-between">
-                <div class="flex-grow-1">
-                    <h3 class="mb-0">Belgrade High School</h3>
-                    <div class="subheading mb-3">X Gymnasium School “Mihajlo Pupin”</div>
-                    <div>General gymnasium</div>
-                </div>
-                <div class="flex-shrink-0"><span class="text-primary">September 2007 - June 2011</span></div>
-            </div>
+            {% endfor %}
 
             <h2 class="mt-5 mb-5">Courses</h2>
-            <div class="d-flex flex-column flex-md-row justify-content-between">
-                <div class="flex-grow-1">
-                    <div class="subheading mb-3">Udemy - Django Core | A Reference Guide to Core Django Concepts</div>
+            {% for course in context.course %}
+                <div class="d-flex flex-column flex-md-row justify-content-between">
+                    <div class="flex-grow-1">
+                        <div class="subheading mb-3">{{course.institution}} - {{course.facility}} - {{course.module}}</div>
+                    </div>
+                    <div class="flex-shrink-0"><span class="text-primary">{{course.study_period}}</span></div>
                 </div>
-                <div class="flex-shrink-0"><span class="text-primary"></span></div>
-            </div>
-            <div class="d-flex flex-column flex-md-row justify-content-between">
-                <div class="flex-grow-1">
-                    <div class="subheading mb-3">ITBootcamp - Software Engineer : manual and automation testing</div>
-                </div>
-                <div class="flex-shrink-0"><span class="text-primary">September 2019 - December 2019</span></div>
-            </div>
-            <div class="d-flex flex-column flex-md-row justify-content-between">
-                <div class="flex-grow-1">
-                    <div class="subheading mb-3">IT retraining Computer Equipment Trade (CET) - .NET & SQL Database course</div>
-                </div>
-                <div class="flex-shrink-0"><span class="text-primary">February 2018 - July 2018</span></div>
-            </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

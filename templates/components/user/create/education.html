@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="mb-3 row">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input type="text" class="form-control" name="institution-0" placeholder="University/Institution"/>
             </div>
             <div class="col-sm-3">
@@ -22,6 +22,14 @@
             <div class="col-sm-2">
                 <input type="text" class="form-control" name="studyperiod-0" placeholder="Study period"/>
             </div>
+            <div class="col-sm-1">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="course-0" name="course-0">
+                    <label class="form-check-label" for="course-0">
+                        Course?
+                    </label>
+                  </div>
+            </div>
         </div>
     </div>
     <script>
@@ -31,7 +39,7 @@
             /* --------------------- */
             const education_obj = `
                 <div class="mb-3 row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" name="INSTITUTION" placeholder="University/Institution"/>
                     </div>
                     <div class="col-sm-3">
@@ -42,6 +50,14 @@
                     </div>
                     <div class="col-sm-2">
                         <input type="text" class="form-control" name="STUDYPERIOD" placeholder="Study period"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COURSE" name="COURSE">
+                            <label class="form-check-label" for="COURSE">
+                                Course?
+                            </label>
+                          </div>
                     </div>
                 </div>
             `
@@ -57,6 +73,7 @@
                         .replace('FACILITY', `facility-${education_count}`)
                         .replace('MODULE', `module-${education_count}`)
                         .replace('STUDYPERIOD', `studyperiod-${education_count}`)
+                        .replace('COURSE', `course-${education_count}`)
                 );
             });
         });
