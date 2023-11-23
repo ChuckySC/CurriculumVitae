@@ -1,6 +1,6 @@
-- Relation Skills - UserSkills - UserSkills
-- Finish FE part for create full cv
-- BE create user
-- FE & BE edit user
-- FE & BE view user
-- Download CV pdf
+- TODO FE &BE create user
+- TODO FE & BE edit user
+- TODO FE & BE view user
+
+- TODO Download CV pdf
+- TODO Add notifications and error msgs
