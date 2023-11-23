@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import select, update, delete, values
 from sqlalchemy.sql import func
 from flask import Flask
 import os
@@ -46,13 +47,21 @@ class User(db.Model):
         return f'<User {self.firstname}>'
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
-        return self.id
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.id
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
     def remove(self):
-        db.session.delete(self)
-        db.session.commit()
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
 class Skill(db.Model):
     __tablename__ = 'Skill'
@@ -60,7 +69,7 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), unique=True, nullable=False)
     # skill = True, workflow = False
-    isSkill = db.Column(db.Boolean, unique=False, default=True)
+    is_skill = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
@@ -71,12 +80,22 @@ class Skill(db.Model):
         return f'<Skill {self.name}>'
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
     def remove(self):
-        db.session.delete(self)
-        db.session.commit()
+        try:
+            if db.session.query(UserSkill.skill_id).filter_by(id=self.id).first() is None:
+                # delete if skill is not linked to any user
+                db.session.delete(self)
+                db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
 class UserEducation(db.Model):
     __tablename__ = 'UserEducation'
@@ -97,12 +116,20 @@ class UserEducation(db.Model):
         return f'<Institution {self.institution}>'
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
     def remove(self):
-        db.session.delete(self)
-        db.session.commit()
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
 class UserExperience(db.Model):
     __tablename__ = 'UserExperience'
@@ -122,12 +149,20 @@ class UserExperience(db.Model):
         return f'<Position {self.position}>'
 
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
     def remove(self):
-        db.session.delete(self)
-        db.session.commit()
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
 class UserSkill(db.Model):
     __tablename__ = 'UserSkill'
@@ -140,9 +175,28 @@ class UserSkill(db.Model):
         super(UserSkill, self).__init__(**kwargs)
     
     def save(self):
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
 
     def remove(self):
-        db.session.delete(self)
-        db.session.commit()
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
+    
+    def removeAll(id):
+        try:
+            # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
+            sql = delete(UserSkill).where(UserSkill.user_id == id)
+
+            db.session.execute(sql)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()

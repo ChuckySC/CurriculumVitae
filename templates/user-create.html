@@ -11,11 +11,11 @@
             <div class="resume-section-content">
                 <form method="POST" enctype="multipart/form-data">
                     <div class="container">
-                        {% include "components/info-general.html" %}
-                        {% include "components/info-education.html" %}
-                        {% include "components/info-experience.html" %}
+                        {% include "components/user/create/general.html" %}
+                        {% include "components/user/create/education.html" %}
+                        {% include "components/user/create/experience.html" %}
                         {% with context=context %}
-                            {% include "components/info-skills.html" %}
+                            {% include "components/user/create/skills.html" %}
                         {% endwith %}
                         <hr>
                         <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>

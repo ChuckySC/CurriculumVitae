@@ -58,8 +58,8 @@ def user_create():
         
         context = {
             'type': 'user-create',
-            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
-            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
+            'skills': Skill.query.filter_by(is_skill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(is_skill=False).order_by(Skill.name)
         }
         return render_template('user-create.html', context=context)
     except Exception as e:
@@ -77,14 +77,14 @@ def user_details(id):
         workflows = []
         for element in user_skills:
             skill = Skill.query.get(int(element.skill_id))
-            if skill.isSkill:
+            if skill.is_skill:
                 skills.append(skill.name)
             else:
                 workflows.append(skill.name)
             
         context = {
             'type': 'user-details',
-            'about': {
+            'general': {
                 'firstname': user.firstname,
                 'lastname': user.lastname,
                 'street': user.street,
@@ -96,6 +96,8 @@ def user_details(id):
                 'linkedin': user.li,
                 'github': user.gh
             },
+            'experience': [],
+            'education': [],
             'skills': {
                 'skills': skills,
                 'workflows': workflows
@@ -109,7 +111,7 @@ def user_details(id):
 @app_views.route('/user/edit/<int:id>', methods=('GET', 'POST'))
 def user_edit(id):
     try:
-        from app import User
+        from app import User, Skill, UserSkill
         user = User.query.get_or_404(id)
         
         if request.method == 'POST':
@@ -124,21 +126,41 @@ def user_edit(id):
             user.li = request.form['li']
             user.gh = request.form['gh']
             user.save()
+            
+            # remove all current skills & save new skills
+            UserSkill.removeAll(id)
+            skills = Skill.query.all()
+            for skill in skills:
+                if f'skill-{skill.id}' in request.form:
+                    UserSkill(
+                        user_id=id,
+                        skill_id=skill.id
+                    ).save()
+
             return redirect(url_for('app_views.index'))
-        
+
         context = {
             'type': 'user-edit',
-            'about': {
-                'firstname': user.firstname,
-                'lastname': user.lastname,
-                'street': user.street,
-                'city': user.city,
-                'postcode': user.postcode,
-                'phone': user.phone,
-                'email': user.email,
-                'bio': user.bio,
-                'linkedin': user.li,
-                'github': user.gh
+            'skills': Skill.query.filter_by(is_skill=True),
+            'workflows': Skill.query.filter_by(is_skill=False),
+            'user': {
+                'general': {
+                    'firstname': user.firstname,
+                    'lastname': user.lastname,
+                    'street': user.street,
+                    'city': user.city,
+                    'postcode': user.postcode,
+                    'phone': user.phone,
+                    'email': user.email,
+                    'bio': user.bio,
+                    'linkedin': user.li,
+                    'github': user.gh
+                },
+                'experience': [],
+                'education': [],
+                'skill': [ skill.skill_id
+                    for skill in UserSkill.query.filter_by(user_id=id)
+                ]
             }
         }
         return render_template('user-edit.html', context=context)
@@ -166,18 +188,18 @@ def skill_create(type='skill'):
             if type == 'skill':
                 Skill(
                     name=request.form['skillname'],
-                    isSkill=True
+                    is_skill=True
                 ).save()
             else:
                 Skill(
                     name=request.form['workflowname'],
-                    isSkill=False
+                    is_skill=False
                 ).save()
 
         context = {
             'type': 'skill-create',
-            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
-            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
+            'skills': Skill.query.filter_by(is_skill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(is_skill=False).order_by(Skill.name)
         }
         return render_template('skill-create.html', context=context)
     except Exception as e:
@@ -197,8 +219,8 @@ def skill_edit(id):
         
         context = {
             'type': 'skill-create',
-            'skills': Skill.query.filter_by(isSkill=True).order_by(Skill.name),
-            'workflows': Skill.query.filter_by(isSkill=False).order_by(Skill.name)
+            'skills': Skill.query.filter_by(is_skill=True).order_by(Skill.name),
+            'workflows': Skill.query.filter_by(is_skill=False).order_by(Skill.name)
         }
         return render_template('skill-create.html', context=context)
     except Exception as e:
