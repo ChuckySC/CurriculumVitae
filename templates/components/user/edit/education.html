@@ -1,2 +1,90 @@
 {% block content %}
+    <div id="add-education">
+        <hr>
+        <div class="mb-3 row">
+            <div class="col-sm-10"><h4 class="mb-2">Education & courses</h4></div>
+            <div class="col-sm-2">
+                <button id="btn-add-education" class="btn btn-outline-primary" style="float: right;" type="button">
+                    <i class="fa-solid fa-plus"></i></a>
+                </button>
+            </div>
+        </div>
+        {% for education in context %}
+            <div class="mb-3 row">
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="institution-{{loop.index0}}" placeholder="University/Institution" value="{{education.institution}}"/>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="facility-{{loop.index0}}" placeholder="Facility/City" value="{{education.facility}}"/>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="module-{{loop.index0}}" placeholder="Module" value="{{education.module}}"/>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="studyperiod-{{loop.index0}}" placeholder="Study period" value="{{education.studyperiod}}"/>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-check">
+                        {% if education.is_education %}
+                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}" checked>
+                            <label class="form-check-label" for="course-{{loop.index0}}">
+                                Course?
+                            </label>
+                        {% else %}
+                            <input class="form-check-input" type="checkbox" value="" id="course-{{loop.index0}}" name="course-{{loop.index0}}">
+                            <label class="form-check-label" for="course-{{loop.index0}}">
+                                Course?
+                            </label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(document).ready(function () {
+            /* --------------------- */
+            /* ----- CONSTANTS ----- */
+            /* --------------------- */
+            const education_obj = `
+                <div class="mb-3 row">
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="INSTITUTION" placeholder="University/Institution"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="FACILITY" placeholder="Facility/City"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="MODULE" placeholder="Module"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="STUDYPERIOD" placeholder="Study period"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COURSE" name="COURSE">
+                            <label class="form-check-label" for="COURSE">
+                                Course?
+                            </label>
+                          </div>
+                    </div>
+                </div>
+            `
+
+            /* --------------------- */
+            /* ----- LISTENERS ----- */
+            /* --------------------- */
+            $('button#btn-add-education').bind('click', function() {
+                let education_count = $('div#add-education div.row').length - 1;
+                $('div#add-education').append(
+                    education_obj
+                        .replace('INSTITUTION', `institution-${education_count}`)
+                        .replace('FACILITY', `facility-${education_count}`)
+                        .replace('MODULE', `module-${education_count}`)
+                        .replace('STUDYPERIOD', `studyperiod-${education_count}`)
+                        .replace('COURSE', `course-${education_count}`)
+                );
+            });
+        });
+    </script>
 {% endblock %}

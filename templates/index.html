@@ -34,7 +34,9 @@
                         <td>{{user.bio}}</td>
                         <td>
                             <button type="button" class="btn btn-outline-success">
-                                <i class="fa-solid fa-file-arrow-down"></i>
+                                <a class="nav-link" href="{{ url_for('app_views.user_download', id = user.id) }}" target="_blank">
+                                    <i class="fa-solid fa-file-arrow-down"></i>
+                                </a>
                             </button>
                         </td>
                         <td>

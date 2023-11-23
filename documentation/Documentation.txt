@@ -1,6 +1,9 @@
 ### Templates
     https://startbootstrap.com/theme/resume
 
+### PDF Documents in Python With ReportLab
+    https://pythonassets.com/posts/create-pdf-documents-in-python-with-reportlab/
+
 ### How to Use Flask-SQLAlchemy to Interact with Databases in a Flask Application
     https://www.digitalocean.com/community/tutorials/how-to-use-flask-sqlalchemy-to-interact-with-databases-in-a-flask-application
     https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/

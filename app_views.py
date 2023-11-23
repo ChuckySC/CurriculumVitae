@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template, abort, request, url_for, redirect
+from flask import Blueprint, render_template, abort, request, url_for, redirect, send_from_directory
 from datetime import datetime
+
+from functions.reportlab import generate_pdf
 
 app_views = Blueprint('app_views', __name__)
 
@@ -28,6 +30,7 @@ def index():
 def user_create():
     try:
         from app import User, UserEducation, UserExperience, Skill, UserSkill
+
         if request.method == 'POST':
             user_id = User(
                 firstname=request.form['firstname'],
@@ -52,7 +55,7 @@ def user_create():
                         facility = request.form[f'facility-{counter}'],
                         module = request.form[f'module-{counter}'],
                         study_period = request.form[f'studyperiod-{counter}'],
-                        is_education = True if f'course-{counter}' in request.form else False
+                        is_education = False if f'course-{counter}' in request.form else True
                     ).save()
                 counter += 1
 
@@ -89,10 +92,52 @@ def user_create():
         # logger for errors
         abort(500)
 
+@app_views.route('/user/download/<int:id>', methods=['GET', 'POST'])
+def user_download(id):
+    try:
+        from app import User, UserEducation, UserExperience, UserSkill, Skill
+
+        user = User.query.get(int(id))
+        user_experience = UserExperience.query.filter_by(user_id=id)
+        user_education = UserEducation.query.filter_by(user_id=id, is_education=True)
+        user_course = UserEducation.query.filter_by(user_id=id, is_education=False)
+        user_skills = UserSkill.query.filter_by(user_id=id)
+
+        skills = []
+        workflows = []
+        for element in user_skills:
+            skill = Skill.query.get(int(element.skill_id))
+            if skill.is_skill:
+                skills.append(skill.name)
+            else:
+                workflows.append(skill.name)
+        
+        user_data = {
+            'name': f'{user.firstname} {user.lastname}',
+            'linkedin': user.li,
+            'github': user.gh,
+            'email': user.email,
+            'address': f'{user.street}, {user.postcode} {user.city}',
+            'phone': user.phone,
+            'summary': user.bio,
+            'experience': user_experience,
+            'education': user_education,
+            'courses': user_course,
+            'skills': skills,
+            'workflows': workflows
+        }
+
+        generate_pdf(user_data=user_data)
+        return redirect(url_for('app_views.index'))
+    except Exception as e:
+        # logger for errors
+        abort(500)
+
 @app_views.route('/user/details/<int:id>', methods=['GET'])
 def user_details(id):
     try:
         from app import User, UserEducation, UserExperience, UserSkill, Skill
+
         user = User.query.get(int(id))
         user_skills = UserSkill.query.filter_by(user_id=id)
         
@@ -138,6 +183,7 @@ def user_details(id):
 def user_edit(id):
     try:
         from app import User, UserEducation, UserExperience, Skill, UserSkill
+
         user = User.query.get_or_404(id)
         
         if request.method == 'POST':
@@ -164,7 +210,7 @@ def user_edit(id):
                         facility = request.form[f'facility-{counter}'],
                         module = request.form[f'module-{counter}'],
                         study_period = request.form[f'studyperiod-{counter}'],
-                        is_education = True if f'course-{counter}' in request.form else False
+                        is_education = False if f'course-{counter}' in request.form else True
                     ).save()
                 counter += 1
 
@@ -211,10 +257,7 @@ def user_edit(id):
                     'github': user.gh
                 },
                 'experience': UserExperience.query.filter_by(user_id=id),
-                'education': {
-                    'education': UserEducation.query.filter_by(user_id=id, is_education=True),
-                    'course': UserEducation.query.filter_by(user_id=id, is_education=False)
-                },
+                'education': UserEducation.query.filter_by(user_id=id),
                 'skill': [ skill.skill_id
                     for skill in UserSkill.query.filter_by(user_id=id)
                 ]
@@ -228,8 +271,12 @@ def user_edit(id):
 @app_views.post('/user/remove/<int:id>')
 def user_remove(id):
     try:
-        from app import User
+        from app import User, UserEducation, UserExperience, UserSkill
+
         user = User.query.get_or_404(id)
+        UserEducation.removeAll(id)
+        UserExperience.removeAll(id)
+        UserSkill.removeAll(id)
         user.remove()
         return redirect(url_for('app_views.index'))
     except Exception as e:
@@ -267,6 +314,7 @@ def skill_create(type='skill'):
 def skill_edit(id):
     try:
         from app import Skill
+
         skill = Skill.query.get_or_404(id)
         
         if request.method == 'POST':
@@ -288,6 +336,7 @@ def skill_edit(id):
 def skill_remove(id):
     try:
         from app import Skill
+
         skill = Skill.query.get_or_404(id)
         skill.remove()
         return redirect(url_for('app_views.skill_create', type='skill'))

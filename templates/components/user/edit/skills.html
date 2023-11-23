@@ -1,2 +1,37 @@
 {% block content %}
+    <div id="add-experience">
+        <hr>
+        <h4 class="mb-4">Skills</h2>
+        <div class="subheading mb-3">Programming Languages & Tools</div>
+        <div class="container">
+            {% for skill in context.skills %}
+                {% if skill.id in context.user.skill %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="skill-{{skill.id}}" checked>
+                        <label class="form-check-label" for="skill-{{skill.id}}">{{skill.name}}</label>
+                    </div>
+                {% else %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="skill-{{skill.id}}">
+                        <label class="form-check-label" for="skill-{{skill.id}}">{{skill.name}}</label>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="subheading mt-3 mb-3">Workflow</div>
+        {% for workflow in context.workflows %}
+            {% if workflow.id in context.user.skill %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="skill-{{workflow.id}}" checked>
+                    <label class="form-check-label" for="skill-{{workflow.id}}">{{workflow.name}}</label>
+                </div>
+            {% else %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="skill-{{workflow.id}}">
+                    <label class="form-check-label" for="skill-{{workflow.id}}">{{workflow.name}}</label>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
