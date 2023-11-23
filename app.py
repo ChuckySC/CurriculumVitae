@@ -108,7 +108,7 @@ class UserEducation(db.Model):
     facility = db.Column(db.String(256), unique=False, nullable=False)
     module = db.Column(db.String(256), unique=False, nullable=False)
     study_period = db.Column(db.String(256), unique=False, nullable=False)
-    # education or course
+    # education=True, course=False
     is_education = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -137,7 +137,6 @@ class UserEducation(db.Model):
 
     def removeAll(id):
         try:
-            # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
             sql = delete(UserEducation).where(UserEducation.user_id == id)
 
             db.session.execute(sql)
@@ -181,8 +180,7 @@ class UserExperience(db.Model):
 
     def removeAll(id):
         try:
-            # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
-            sql = delete(UserEducation).where(UserEducation.user_id == id)
+            sql = delete(UserExperience).where(UserExperience.user_id == id)
 
             db.session.execute(sql)
             db.session.commit()

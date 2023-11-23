@@ -6,24 +6,34 @@
         {% include "components/navigation.html" %}
     {% endwith %}
 
-    <!-- General -->
-    {% with context=context.user.general %}
-        {% include "components/user/edit/general.html" %}
-    {% endwith %}
+    <div class="container-fluid p-0">
+        <section class="resume-section">
+            <div class="resume-section-content">
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- General -->
+                    {% with context=context.user.general %}
+                        {% include "components/user/edit/general.html" %}
+                    {% endwith %}
 
-    <!-- Experience -->
-    {% with context=context.user.experience %}
-        {% include "components/user/edit/experience.html" %}
-    {% endwith %}
+                    <!-- Experience -->
+                    {% with context=context.user.experience %}
+                        {% include "components/user/edit/experience.html" %}
+                    {% endwith %}
 
-    <!-- Education -->
-    {% with context=context.user.education %}
-        {% include "components/user/edit/education.html" %}
-    {% endwith %}
+                    <!-- Education -->
+                    {% with context=context.user.education %}
+                        {% include "components/user/edit/education.html" %}
+                    {% endwith %}
 
-    <!-- Skills -->
-    {% with context=context.user.skills %}
-        {% include "components/user/edit/skills.html" %}
-    {% endwith %}
+                    <!-- Skills -->
+                    {% with context=context %}
+                        {% include "components/user/edit/skills.html" %}
+                    {% endwith %}
+
+                    <button class="btn btn-primary flex-end" style="float: right;" type="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+    </div>
     
 {% endblock %}

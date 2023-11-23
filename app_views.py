@@ -52,7 +52,7 @@ def user_create():
                         facility = request.form[f'facility-{counter}'],
                         module = request.form[f'module-{counter}'],
                         study_period = request.form[f'studyperiod-{counter}'],
-                        is_education = True if f'course-{counter}' in request.form else False
+                        is_education = False if f'course-{counter}' in request.form else True
                     ).save()
                 counter += 1
 
@@ -164,7 +164,7 @@ def user_edit(id):
                         facility = request.form[f'facility-{counter}'],
                         module = request.form[f'module-{counter}'],
                         study_period = request.form[f'studyperiod-{counter}'],
-                        is_education = True if f'course-{counter}' in request.form else False
+                        is_education = False if f'course-{counter}' in request.form else True
                     ).save()
                 counter += 1
 
@@ -211,10 +211,7 @@ def user_edit(id):
                     'github': user.gh
                 },
                 'experience': UserExperience.query.filter_by(user_id=id),
-                'education': {
-                    'education': UserEducation.query.filter_by(user_id=id, is_education=True),
-                    'course': UserEducation.query.filter_by(user_id=id, is_education=False)
-                },
+                'education': UserEducation.query.filter_by(user_id=id),
                 'skill': [ skill.skill_id
                     for skill in UserSkill.query.filter_by(user_id=id)
                 ]
@@ -228,8 +225,13 @@ def user_edit(id):
 @app_views.post('/user/remove/<int:id>')
 def user_remove(id):
     try:
-        from app import User
+        from app import User, UserEducation, UserExperience, UserSkill
         user = User.query.get_or_404(id)
+        
+        UserEducation.removeAll(id)
+        UserExperience.removeAll(id)
+        UserSkill.removeAll(id)
+        
         user.remove()
         return redirect(url_for('app_views.index'))
     except Exception as e:
