@@ -93,6 +93,8 @@ class Skill(db.Model):
                 # delete if skill is not linked to any user
                 db.session.delete(self)
                 db.session.commit()
+            # else:
+                # TODO trigger notification msg pop up
         except Exception as e:
             # logger for errors
             db.session.close()
@@ -102,15 +104,17 @@ class UserEducation(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
-    institution = db.Column(db.String(256), nullable=False)
-    facility = db.Column(db.String(256), nullable=False)
-    module = db.Column(db.String(256), nullable=False)
-    study_period = db.Column(db.String(256), nullable=False)
+    institution = db.Column(db.String(256), unique=False, nullable=False)
+    facility = db.Column(db.String(256), unique=False, nullable=False)
+    module = db.Column(db.String(256), unique=False, nullable=False)
+    study_period = db.Column(db.String(256), unique=False, nullable=False)
+    # education or course
+    is_education = db.Column(db.Boolean, unique=False, default=True)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
+        super(UserEducation, self).__init__(**kwargs)
 
     def __repr__(self):
         return f'<Institution {self.institution}>'
@@ -131,19 +135,30 @@ class UserEducation(db.Model):
             # logger for errors
             db.session.close()
 
+    def removeAll(id):
+        try:
+            # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
+            sql = delete(UserEducation).where(UserEducation.user_id == id)
+
+            db.session.execute(sql)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
+
 class UserExperience(db.Model):
     __tablename__ = 'UserExperience'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
-    position = db.Column(db.String(256), nullable=False)
-    organization = db.Column(db.String(256), nullable=False)
-    work_period = db.Column(db.String(256), nullable=False)
+    position = db.Column(db.String(256), unique=False, nullable=False)
+    organization = db.Column(db.String(256), unique=False, nullable=False)
+    work_period = db.Column(db.String(256), unique=False, nullable=False)
 
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
+        super(UserExperience, self).__init__(**kwargs)
 
     def __repr__(self):
         return f'<Position {self.position}>'
@@ -159,6 +174,17 @@ class UserExperience(db.Model):
     def remove(self):
         try:
             db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            # logger for errors
+            db.session.close()
+
+    def removeAll(id):
+        try:
+            # sql = delete(UserSkill).where(UserSkill.user_id.in_([ids]))
+            sql = delete(UserEducation).where(UserEducation.user_id == id)
+
+            db.session.execute(sql)
             db.session.commit()
         except Exception as e:
             # logger for errors

@@ -27,7 +27,7 @@ def index():
 @app_views.route('/user/create/', methods=('GET', 'POST'))
 def user_create():
     try:
-        from app import User, Skill, UserSkill
+        from app import User, UserEducation, UserExperience, Skill, UserSkill
         if request.method == 'POST':
             user_id = User(
                 firstname=request.form['firstname'],
@@ -42,8 +42,31 @@ def user_create():
                 gh=request.form['gh']
             ).save()
             
-            # TODO save education
-            # TODO save experience
+            # save education
+            counter = 0
+            while f'institution-{counter}' in request.form:
+                if request.form[f'institution-{counter}'] != '':
+                    UserEducation(
+                        user_id = user_id,
+                        institution = request.form[f'institution-{counter}'],
+                        facility = request.form[f'facility-{counter}'],
+                        module = request.form[f'module-{counter}'],
+                        study_period = request.form[f'studyperiod-{counter}'],
+                        is_education = True if f'course-{counter}' in request.form else False
+                    ).save()
+                counter += 1
+
+            # save experience
+            counter = 0
+            while f'position-{counter}' in request.form:
+                if request.form[f'position-{counter}'] != '':
+                    UserExperience(
+                        user_id = user_id,
+                        position = request.form[f'position-{counter}'],
+                        organization = request.form[f'organization-{counter}'],
+                        work_period = request.form[f'workperiod-{counter}']
+                    ).save()
+                counter += 1
             
             # save skills
             skills = Skill.query.all()
@@ -69,7 +92,7 @@ def user_create():
 @app_views.route('/user/details/<int:id>', methods=['GET'])
 def user_details(id):
     try:
-        from app import User, UserSkill, Skill
+        from app import User, UserEducation, UserExperience, UserSkill, Skill
         user = User.query.get(int(id))
         user_skills = UserSkill.query.filter_by(user_id=id)
         
@@ -96,8 +119,11 @@ def user_details(id):
                 'linkedin': user.li,
                 'github': user.gh
             },
-            'experience': [],
-            'education': [],
+            'experience': UserExperience.query.filter_by(user_id=id),
+            'education': {
+                'education': UserEducation.query.filter_by(user_id=id, is_education=True),
+                'course': UserEducation.query.filter_by(user_id=id, is_education=False)
+            },
             'skills': {
                 'skills': skills,
                 'workflows': workflows
@@ -111,7 +137,7 @@ def user_details(id):
 @app_views.route('/user/edit/<int:id>', methods=('GET', 'POST'))
 def user_edit(id):
     try:
-        from app import User, Skill, UserSkill
+        from app import User, UserEducation, UserExperience, Skill, UserSkill
         user = User.query.get_or_404(id)
         
         if request.method == 'POST':
@@ -127,6 +153,34 @@ def user_edit(id):
             user.gh = request.form['gh']
             user.save()
             
+            # remove all current user education & save new education
+            UserEducation.removeAll(id)
+            counter = 0
+            while f'institution-{counter}' in request.form:
+                if request.form[f'institution-{counter}'] != '':
+                    UserEducation(
+                        user_id = id,
+                        institution = request.form[f'institution-{counter}'],
+                        facility = request.form[f'facility-{counter}'],
+                        module = request.form[f'module-{counter}'],
+                        study_period = request.form[f'studyperiod-{counter}'],
+                        is_education = True if f'course-{counter}' in request.form else False
+                    ).save()
+                counter += 1
+
+            # remove all current user experience & save new experience
+            UserExperience.removeAll(id)
+            counter = 0
+            while f'position-{counter}' in request.form:
+                if request.form[f'position-{counter}'] != '':
+                    UserExperience(
+                        user_id = id,
+                        position = request.form[f'position-{counter}'],
+                        organization = request.form[f'organization-{counter}'],
+                        work_period = request.form[f'workperiod-{counter}']
+                    ).save()
+                counter += 1
+
             # remove all current skills & save new skills
             UserSkill.removeAll(id)
             skills = Skill.query.all()
@@ -156,8 +210,11 @@ def user_edit(id):
                     'linkedin': user.li,
                     'github': user.gh
                 },
-                'experience': [],
-                'education': [],
+                'experience': UserExperience.query.filter_by(user_id=id),
+                'education': {
+                    'education': UserEducation.query.filter_by(user_id=id, is_education=True),
+                    'course': UserEducation.query.filter_by(user_id=id, is_education=False)
+                },
                 'skill': [ skill.skill_id
                     for skill in UserSkill.query.filter_by(user_id=id)
                 ]
